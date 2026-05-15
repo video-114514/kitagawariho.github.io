@@ -5,53 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✦ Private Theater ✦</title>
     <style>
-        /* デザイン：友達用なので少しシンプルかつリッチに */
-        body { 
-            background: #0f0f0f; 
-            color: #eee; 
-            font-family: sans-serif; 
-            text-align: center; 
-            margin: 0; 
-            padding: 20px; 
-        }
-        #login-container { 
-            max-width: 400px; 
-            margin: 100px auto; 
-            padding: 40px 20px; 
-            background: #1a1a1a; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-        }
+        body { background: #0f0f0f; color: #eee; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
+        #login-container { max-width: 400px; margin: 100px auto; padding: 40px 20px; background: #1a1a1a; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         h2 { color: #d4a017; font-weight: 300; margin-bottom: 30px; }
-        input { 
-            width: 80%; 
-            padding: 12px; 
-            margin-bottom: 20px; 
-            border-radius: 8px; 
-            border: 1px solid #333; 
-            background: #000; 
-            color: #fff; 
-            font-size: 16px; 
-            outline: none; 
-        }
-        button { 
-            width: 85%; 
-            padding: 12px; 
-            background: #d4a017; 
-            color: #000; 
-            border: none; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            cursor: pointer; 
-        }
+        input { width: 80%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; font-size: 16px; outline: none; }
+        button { width: 85%; padding: 12px; background: #d4a017; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .hidden { display: none; }
-        video { 
-            width: 100%; 
-            max-width: 900px; 
-            border-radius: 10px; 
-            margin-top: 20px; 
-            background: #000; 
-        }
+        video { width: 100%; max-width: 900px; border-radius: 10px; margin-top: 20px; background: #000; box-shadow: 0 0 20px rgba(212,160,23,0.1); }
     </style>
 </head>
 <body>
@@ -59,28 +19,25 @@
     <div id="login-screen">
         <div id="login-container">
             <h2>ENTER KEY</h2>
-            <input type="password" id="passInput" placeholder="名前を半角英数で入力">
+            <input type="password" id="passInput" placeholder="Enter Key">
             <br>
             <button onclick="checkPass()">UNLOCK</button>
         </div>
     </div>
 
     <div id="video-screen" class="hidden">
-        <h1 style="color:#d4a017;">AUTHORIZED</h1>
+        <h1 style="color:#d4a017; font-weight: 100; letter-spacing: 5px;">AUTHORIZED</h1>
         <video id="main-video" controls playsinline>
             <source src="nana.mp4" type="video/mp4">
-            ブラウザが動画再生に対応していません。
+            Your browser does not support the video tag.
         </video>
     </div>
 
     <script>
-        // 正解のハッシュ（kitagawariho）
         const GOAL = "a2l0YWdhd2FyaWhv";
 
         function checkPass() {
             const input = document.getElementById('passInput').value;
-            
-            // 安全なBase64変換（日本語入力ミスにも耐えられるように）
             let encoded;
             try {
                 encoded = btoa(unescape(encodeURIComponent(input)));
@@ -89,24 +46,20 @@
             }
 
             if (encoded === GOAL) {
-                // 画面切り替え
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('video-screen').classList.remove('hidden');
                 
-                // 動画を強制リロードして再生準備
+                // 動画を強制リロード
                 const v = document.getElementById('main-video');
                 v.load(); 
             } else {
-                alert("パスワードが違います。");
+                alert("ACCESS DENIED.");
                 document.getElementById('passInput').value = "";
             }
         }
 
-        // Enterキーでもログインできるようにする
         document.getElementById('passInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                checkPass();
-            }
+            if (e.key === 'Enter') checkPass();
         });
     </script>
 </body>
