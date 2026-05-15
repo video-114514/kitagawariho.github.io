@@ -3,59 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
+    <title>✦ Private Theater ✦</title>
     <style>
-        body { background: #111; color: #eee; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
-        #login-container { max-width: 350px; margin: 100px auto; padding: 30px; background: #222; border-radius: 12px; }
-        input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #444; background: #000; color: #fff; font-size: 16px; text-align: center; }
-        button { width: 98%; padding: 12px; background: #007bff; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        body { background: #0a0a0a; color: #d4a017; font-family: 'Courier New', Courier, monospace; text-align: center; margin: 0; padding: 20px; overflow-x: hidden; }
+        #login-container { max-width: 400px; margin: 100px auto; padding: 50px 30px; background: #111; border: 1px solid #333; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
+        h2 { font-weight: 100; letter-spacing: 5px; margin-bottom: 40px; font-size: 1.2rem; text-shadow: 0 0 10px rgba(212, 160, 23, 0.5); }
+        input { width: 85%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #444; background: #000; color: #fff; font-size: 16px; outline: none; text-align: center; }
+        input:focus { border-color: #d4a017; box-shadow: 0 0 15px rgba(212, 160, 23, 0.3); }
+        button { width: 93%; padding: 15px; background: linear-gradient(135deg, #d4a017 0%, #b8860b 100%); color: #000; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; letter-spacing: 2px; }
         .hidden { display: none; }
-        video { width: 100%; max-width: 800px; border-radius: 8px; margin-top: 20px; }
+        video { width: 100%; max-width: 850px; border-radius: 15px; margin-top: 30px; background: #000; box-shadow: 0 0 40px rgba(0,0,0,1); }
+        h1 { font-weight: 100; letter-spacing: 10px; margin-top: 30px; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
         <div id="login-container">
-            <h2>認証が必要です</h2>
-            <input type="password" id="passInput" placeholder="パスワードを入力してください">
+            <h2>AUTHENTICATION</h2>
+            <input type="password" id="p" placeholder="パスワードを入力してください">
             <br>
-            <button onclick="checkPass()">確認</button>
+            <button onclick="v()">UNLOCK</button>
         </div>
     </div>
 
     <div id="video-screen" class="hidden">
-        <h1>動画を再生します</h1>
-        <div id="player-area"></div>
+        <h1>AUTHORIZED</h1>
+        <div id="player"></div>
     </div>
 
     <script>
-        const GOAL = "a2l0YWdhd2FyaWhv";
+        const _h = "a2l0YWdhd2FyaWhv";
 
-        function checkPass() {
-            const input = document.getElementById('passInput').value;
-            let encoded = btoa(unescape(encodeURIComponent(input)));
+        function v() {
+            const i = document.getElementById('p').value;
+            let e;
+            try {
+                e = btoa(unescape(encodeURIComponent(i)));
+            } catch (x) {
+                e = "";
+            }
 
-            if (encoded === GOAL) {
-                // 1. 画面を切り替える
-                document.getElementById('login-screen').className = 'hidden';
-                document.getElementById('video-screen').className = '';
-                
-                // 2. 認証後に「動画タグ」をゼロから作成して流し込む（これが一番確実）
-                document.getElementById('player-area').innerHTML = 
-                    '<video id="main-video" controls playsinline autoplay>' +
-                    '<source src="nana.mp4" type="video/mp4">' +
-                    '</video>';
-                
-                // 3. 念押しで再生命令
-                const v = document.getElementById('main-video');
-                v.play().catch(e => {
-                    console.log("Auto-play blocked, waiting for user interaction.");
-                });
+            if (e === _h) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('video-screen').classList.remove('hidden');
+                document.getElementById('player').innerHTML = `
+                    <video id="v-main" controls playsinline autoplay>
+                        <source src="nana.mp4" type="video/mp4">
+                    </video>`;
             } else {
                 alert("パスワードが正しくありません。");
             }
         }
+
+        document.getElementById('p').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') v();
+        });
     </script>
 </body>
 </html>
