@@ -3,73 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Video Library</title>
-
+    <title>✦ Private Access ✦</title>
     <style>
-        body {
-            background: #111;
-            color: #eee;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 40px 20px;
-            line-height: 1.6;
-        }
-
-        .video-container {
-            max-width: 900px;
-            margin: 0 auto 60px;
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-        }
-
-        video {
-            width: 100%;
-            border-radius: 8px;
-            outline: none;
-            background: #000;
-        }
-
-        h1 {
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 50px;
-            color: #fff;
-        }
-
-        .video-title {
-            margin-top: 15px;
-            font-size: 1.2rem;
-            color: #aaa;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            display: inline-block;
-        }
-
-        /* スマホ対応 */
-        @media (max-width: 600px) {
-            body { padding: 20px 10px; }
-            h1 { font-size: 1.5rem; }
-        }
+        body { background: #0a0a0a; color: #d4a017; font-family: 'Courier New', Courier, monospace; text-align: center; margin: 0; padding: 40px 20px; }
+        #guard { max-width: 450px; margin: 100px auto; border: 1px solid #333; padding: 50px 40px; border-radius: 20px; background: #111; box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
+        h2 { font-weight: 200; letter-spacing: 5px; margin-bottom: 40px; font-size: 1.1rem; }
+        input { background: #000; border: 1px solid #444; color: #fff; padding: 15px; width: 85%; text-align: center; border-radius: 10px; font-size: 16px; outline: none; transition: 0.3s; }
+        input:focus { border-color: #d4a017; box-shadow: 0 0 10px rgba(212,160,23,0.2); }
+        button { background: #d4a017; color: #000; border: none; padding: 15px; font-weight: bold; cursor: pointer; border-radius: 10px; margin-top: 25px; width: 93%; letter-spacing: 3px; transition: 0.2s; }
+        button:hover { background: #f5c842; transform: scale(1.02); }
+        .hidden { display: none; }
+        video { width: 100%; max-width: 850px; border-radius: 15px; margin-top: 20px; box-shadow: 0 0 40px rgba(212,160,23,0.1); }
     </style>
 </head>
-
 <body>
 
-    <h1>✦ MY EXCLUSIVE CONTENT ✦</h1>
-
-    <div class="video-container">
-        <video controls playsinline poster="">
-            <source src="%E3%81%AA%E3%81%AA.mp4" type="video/mp4">
-            <source src="nana.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="video-title">Project: 72quan-ji</div>
+    <div id="guard">
+        <h2>AUTHENTICATION</h2>
+        <input type="password" id="p" placeholder="ENTER KEY">
+        <br>
+        <button onclick="v()">UNLOCK</button>
     </div>
 
-    <p style="color: #444; font-size: 0.8rem;">&copy; 2026 Private Scripting Lab.</p>
+    <div id="content" class="hidden">
+        <div id="p-inner"></div>
+    </div>
 
+    <script>
+        const _k = "a2l0YWdhd2FyaWhv";
+
+        function v() {
+            const i = document.getElementById('p').value;
+            if (btoa(unescape(encodeURIComponent(i))) === _k) {
+                document.getElementById('guard').classList.add('hidden');
+                document.getElementById('content').classList.remove('hidden');
+                document.getElementById('p-inner').innerHTML = `
+                    <video controls playsinline>
+                        <source src="nana.mp4" type="video/mp4">
+                    </video>`;
+            } else {
+                alert("ACCESS DENIED.");
+            }
+        }
+    </script>
 </body>
 </html>
