@@ -14,6 +14,7 @@
         .hidden { display: none; }
         video { width: 100%; max-width: 850px; border-radius: 15px; margin-top: 30px; background: #000; box-shadow: 0 0 40px rgba(0,0,0,1); }
         h1 { font-weight: 100; letter-spacing: 10px; margin-top: 30px; }
+        #loading-msg { color: #888; font-size: 12px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -30,6 +31,7 @@
     <div id="video-screen" class="hidden">
         <h1>AUTHORIZED</h1>
         <div id="player"></div>
+        <div id="loading-msg">動画が大きい場合、再生開始まで数秒かかることがあります。</div>
     </div>
 
     <script>
@@ -47,12 +49,20 @@
             if (e === _h) {
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('video-screen').classList.remove('hidden');
+                
+                // 読み込み最適化版タグ注入
+                // #t=0.1 を付けることで、最初のフレームを強制的に読み込ませる
                 document.getElementById('player').innerHTML = `
-                    <video id="v-main" controls playsinline autoplay>
-                        <source src="nana.mp4" type="video/mp4">
+                    <video id="v-main" controls playsinline preload="metadata">
+                        <source src="nana.mp4#t=0.1" type="video/mp4">
                     </video>`;
+                
+                const vid = document.getElementById('v-main');
+                // スマホのバッテリー制限等で止まらないよう明示的にロード
+                vid.load();
             } else {
                 alert("パスワードが正しくありません。");
+                document.getElementById('p').value = "";
             }
         }
 
