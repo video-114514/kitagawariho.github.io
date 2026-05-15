@@ -3,43 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✦ Private Theater ✦</title>
+    <title>Video Player</title>
     <style>
-        body { background: #0f0f0f; color: #eee; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
-        #login-container { max-width: 400px; margin: 100px auto; padding: 40px 20px; background: #1a1a1a; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { color: #d4a017; font-weight: 300; margin-bottom: 30px; }
-        input { width: 80%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; font-size: 16px; outline: none; }
-        button { width: 85%; padding: 12px; background: #d4a017; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        body { 
+            background: #111; 
+            color: #eee; 
+            font-family: "Helvetica Neue", Arial, sans-serif; 
+            text-align: center; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        #login-container { 
+            max-width: 380px; 
+            margin: 120px auto; 
+            padding: 35px 20px; 
+            background: #1e1e1e; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+        }
+        h2 { 
+            font-size: 1.1rem; 
+            margin-bottom: 25px; 
+            color: #ccc;
+            font-weight: normal;
+        }
+        input { 
+            width: 85%; 
+            padding: 12px; 
+            margin-bottom: 15px; 
+            border-radius: 8px; 
+            border: 1px solid #333; 
+            background: #000; 
+            color: #fff; 
+            font-size: 16px; 
+            outline: none; 
+            text-align: center;
+        }
+        button { 
+            width: 92%; 
+            padding: 12px; 
+            background: #007bff; 
+            color: #fff; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 16px;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
         .hidden { display: none; }
-        video { width: 100%; max-width: 900px; border-radius: 10px; margin-top: 20px; background: #000; box-shadow: 0 0 20px rgba(212,160,23,0.1); }
+        video { 
+            width: 100%; 
+            max-width: 800px; 
+            border-radius: 10px; 
+            margin-top: 20px; 
+            background: #000; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
         <div id="login-container">
-            <h2>ENTER KEY</h2>
-            <input type="password" id="passInput" placeholder="Enter Key">
+            <h2>認証が必要です</h2>
+            <input type="password" id="passInput" placeholder="パスワードを入力してください">
             <br>
-            <button onclick="checkPass()">UNLOCK</button>
+            <button onclick="checkPass()">確認</button>
         </div>
     </div>
 
     <div id="video-screen" class="hidden">
-        <h1 style="color:#d4a017; font-weight: 100; letter-spacing: 5px;">AUTHORIZED</h1>
+        <h1>動画を再生します</h1>
         <video id="main-video" controls playsinline>
             <source src="nana.mp4" type="video/mp4">
-            Your browser does not support the video tag.
         </video>
     </div>
 
     <script>
+        // パスワード "kitagawariho" のハッシュ値
         const GOAL = "a2l0YWdhd2FyaWhv";
 
         function checkPass() {
             const input = document.getElementById('passInput').value;
             let encoded;
             try {
+                // 日本語や特殊文字にも対応したBase64変換
                 encoded = btoa(unescape(encodeURIComponent(input)));
             } catch (e) {
                 encoded = "";
@@ -49,15 +106,16 @@
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('video-screen').classList.remove('hidden');
                 
-                // 動画を強制リロード
+                // 動画をロードして再生準備
                 const v = document.getElementById('main-video');
                 v.load(); 
             } else {
-                alert("ACCESS DENIED.");
+                alert("パスワードが正しくありません。");
                 document.getElementById('passInput').value = "";
             }
         }
 
+        // Enterキー入力にも対応
         document.getElementById('passInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') checkPass();
         });
