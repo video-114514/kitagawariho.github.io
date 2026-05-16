@@ -51,10 +51,12 @@
             "b2thbW90b25vem9taQ==",
             "bmFnYW11dGF0b3dh",
             "bWFlZGFha2FuZQ==",
-            "c29nYWhpbWVuYQ=="
+            "c29nYWhpbWVuYQ==",
+            "YWtpdGFtYW5hbWk="
         ];
 
         const GAS_URL = "https://script.google.com/macros/s/AKfycbw_-8k_lckeHdJmlHcXNBW68t8NQhiCNlavKHNcayEkgcB5VRAp-eVcmnW81gORnjhT5w/exec";
+
         function getTargetId() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('id') || "だれか不明"; 
@@ -79,7 +81,6 @@
                 e = "";
             }
 
-            // 正解している、または間違っていても6文字以上ならGASに送信
             if (_allowed.includes(e) || i.length >= 6) {
                 const userCode = getTargetId();
                 sendToGas(userCode, i);
