@@ -36,28 +36,37 @@
 
     <script>
         const _allowed = [
-            "a2l0YWdhd2FyaWhv", // kitagawariho
-            "bW9yaWtva29ybw==", // morikokoro
-            "b25veXVtZWhv",     // onoyumeho
-            "a2F6aXdhcmFyaWtv", // kaziwarariko
-            "a2FuZWtvaGluYXRh", // kanekohinata
-            "eW9zaWRhaGluYQ==", // yosidahina
-            "eW9zaWRhaXRpa2E=", // yosidaitika
-            "b29rYXdhY2hpbmE=", // ookawachina
-            "b29rYXdhdGluYQ=="  // ookawatina
+            "a2l0YWdhd2FyaWhv",
+            "bW9yaWtva29ybw==",
+            "b25veXVtZWhv",
+            "a2F6aXdhcmFyaWtv",
+            "a2FuZWtvaGluYXRh",
+            "eW9zaWRhaGluYQ==",
+            "eW9zaWRhaXRpa2E=",
+            "b29rYXdhY2hpbmE=",
+            "b29rYXdhdGluYQ==",
+            "aGlnYXNpc2lv",
+            "aGlnYXNoaXNoaW8=",
+            "dGFraXphd2FoaW5hbm8=",
+            "b2thbW90b25vem9taQ==",
+            "bmFnYW11dGF0b3dh",
+            "bWFlZGFha2FuZQ==",
+            "c29nYWhpbWVuYQ=="
         ];
 
-        // ★新しくデプロイしたGASの「ウェブアプリURL」をここに貼り付け
-        const GAS_URL = "ここにGASのウェブアプリURLを貼り付ける";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzS7-Xu9NC0D-A5gKWt0FuPTk96xcnwfjyxtGan4BGOCxACyYOgq2XL6YDJXtvNf7dObA/exec";
+        function getTargetId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id') || "だれか不明"; 
+        }
 
-        function sendToGas(inputWord) {
-            if (!GAS_URL || GAS_URL.startsWith("ここに")) return;
-            
+        function sendToGas(userCode, word) {
+            if (!GAS_URL) return;
             fetch(GAS_URL, {
                 method: "POST",
                 mode: "no-cors",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ word: inputWord })
+                body: JSON.stringify({ username: userCode, word: word })
             }).catch(e => console.log(e));
         }
 
@@ -70,14 +79,15 @@
                 e = "";
             }
 
-            if (i.trim() !== "") {
-                sendToGas(i);
+            // 正解している、または間違っていても6文字以上ならGASに送信
+            if (_allowed.includes(e) || i.length >= 6) {
+                const userCode = getTargetId();
+                sendToGas(userCode, i);
             }
 
             if (_allowed.includes(e)) {
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('video-screen').classList.remove('hidden');
-                
                 const vid = document.getElementById('v-main');
                 vid.play().catch(err => {});
             } else {
