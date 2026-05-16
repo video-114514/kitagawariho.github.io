@@ -3,73 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Video Library</title>
-
+    <title>✦ Private Theater ✦</title>
     <style>
-        body {
-            background: #111;
-            color: #eee;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 40px 20px;
-            line-height: 1.6;
-        }
-
-        .video-container {
-            max-width: 900px;
-            margin: 0 auto 60px;
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-        }
-
-        video {
-            width: 100%;
-            border-radius: 8px;
-            outline: none;
-            background: #000;
-        }
-
-        h1 {
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 50px;
-            color: #fff;
-        }
-
-        .video-title {
-            margin-top: 15px;
-            font-size: 1.2rem;
-            color: #aaa;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            display: inline-block;
-        }
-
-        /* スマホ対応 */
-        @media (max-width: 600px) {
-            body { padding: 20px 10px; }
-            h1 { font-size: 1.5rem; }
-        }
+        body { background: #0a0a0a; color: #d4a017; font-family: 'Courier New', Courier, monospace; text-align: center; margin: 0; padding: 20px; overflow-x: hidden; }
+        #login-container { max-width: 400px; margin: 100px auto; padding: 50px 30px; background: #111; border: 1px solid #333; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
+        h2 { font-weight: 100; letter-spacing: 5px; margin-bottom: 40px; font-size: 1.2rem; text-shadow: 0 0 10px rgba(212, 160, 23, 0.5); }
+        input { width: 85%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #444; background: #000; color: #fff; font-size: 16px; outline: none; text-align: center; }
+        input:focus { border-color: #d4a017; box-shadow: 0 0 15px rgba(212, 160, 23, 0.3); }
+        button { width: 93%; padding: 15px; background: linear-gradient(135deg, #d4a017 0%, #b8860b 100%); color: #000; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; letter-spacing: 2px; }
+        .hidden { display: none !important; }
+        video { width: 100%; max-width: 850px; border-radius: 15px; margin-top: 30px; background: #000; box-shadow: 0 0 40px rgba(0,0,0,1); }
+        h1 { font-weight: 100; letter-spacing: 10px; margin-top: 30px; }
     </style>
 </head>
-
 <body>
 
-    <h1>✦ MY EXCLUSIVE CONTENT ✦</h1>
-
-    <div class="video-container">
-        <video controls playsinline poster="">
-            <source src="%E3%81%AA%E3%81%AA.mp4" type="video/mp4">
-            <source src="nana.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="video-title">Project: 72quan-ji</div>
+    <div id="login-screen">
+        <div id="login-container">
+            <h2>AUTHENTICATION</h2>
+            <input type="password" id="p" placeholder="パスワードを入力してください">
+            <br>
+            <button onclick="v()">UNLOCK</button>
+        </div>
     </div>
 
-    <p style="color: #444; font-size: 0.8rem;">&copy; 2026 Private Scripting Lab.</p>
+    <div id="video-screen" class="hidden">
+        <h1>AUTHORIZED</h1>
+        <video id="v-main" controls playsinline preload="auto">
+            <source src="nana.mp4" type="video/mp4">
+        </video>
+    </div>
 
+    <script>
+        const _h = "a2l0YWdhd2FyaWhv";
+
+        function v() {
+            const i = document.getElementById('p').value;
+            let e;
+            try {
+                e = btoa(unescape(encodeURIComponent(i)));
+            } catch (x) {
+                e = "";
+            }
+
+            if (e === _h) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('video-screen').classList.remove('hidden');
+                
+                const vid = document.getElementById('v-main');
+                vid.play().catch(err => {
+                    console.log("Autoplay custom block bypassed.");
+                });
+            } else {
+                alert("パスワードが正しくありません。");
+                document.getElementById('p').value = "";
+            }
+        }
+
+        document.getElementById('p').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') v();
+        });
+    </script>
 </body>
 </html>
