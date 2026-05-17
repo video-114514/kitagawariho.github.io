@@ -1,68 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✦ 星たちの導き - Stellar Affinity ✦</title>
-    <style>
-        body { 
-            background: radial-gradient(circle at center, #1b1464 0%, #000000 100%); 
-            color: #f0e6ff; 
-            font-family: 'Georgia', serif; 
-            text-align: center; 
-            margin: 0; 
-            padding: 20px;
-            min-height: 100vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .notice { font-size: 11px; color: #a29bfe; margin-bottom: 20px; letter-spacing: 2px; opacity: 0.8; }
-        .box { 
-            max-width: 400px; width: 85%; padding: 50px 30px; 
-            background: rgba(10, 10, 25, 0.6); border: 1px solid rgba(162, 155, 254, 0.3); 
-            border-radius: 40px; box-shadow: 0 0 40px rgba(108, 92, 231, 0.3); backdrop-filter: blur(15px);
-        }
-        h2 { font-weight: lighter; letter-spacing: 6px; margin-bottom: 40px; font-size: 1.2rem; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
-        .input-group { margin-bottom: 30px; }
-        label { display: block; font-size: 11px; margin-bottom: 8px; letter-spacing: 3px; color: #d1d1ff; }
-        input { 
-            width: 85%; padding: 15px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.2); 
-            background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 16px; outline: none; text-align: center; transition: 0.5s;
-        }
-        .u-input:focus { border-color: #a29bfe; box-shadow: 0 0 20px rgba(162, 155, 254, 0.4); }
-        .p-input:focus { border-color: #fab1a0; box-shadow: 0 0 20px rgba(250, 177, 160, 0.4); }
-        button { 
-            width: 90%; padding: 18px; background: transparent; color: #fff; border: 1px solid #fff; 
-            border-radius: 50px; font-size: 14px; letter-spacing: 4px; cursor: pointer; transition: 0.4s; margin-top: 10px;
-        }
-        button:hover { background: #fff; color: #000; box-shadow: 0 0 30px rgba(255, 255, 255, 0.6); }
-        .hidden { display: none !important; }
-        .result-main { font-size: 2.2rem; margin: 30px 0; font-weight: 100; letter-spacing: 2px; }
-        .good { color: #ff7675; text-shadow: 0 0 25px rgba(255, 118, 117, 0.6); }
-        .normal { color: #ffeaa7; text-shadow: 0 0 25px rgba(255, 234, 167, 0.6); }
-        .bad { color: #81ecec; text-shadow: 0 0 25px rgba(129, 236, 236, 0.6); }
-    </style>
-</head>
-<body>
-    <div class="notice">※ひらがなのみでお綴りください</div>
-    <div id="setup-screen" class="box">
-        <h2>STELLAR AFFINITY</h2>
-        <div class="input-group">
-            <label>YOUR NAME</label>
-            <input type="text" id="u-name" class="u-input" placeholder="あなたのなまえ">
-        </div>
-        <div class="input-group">
-            <label>PARTNER'S NAME</label>
-            <input type="text" id="p-name" class="p-input" placeholder="あいてのなまえ">
-        </div>
-        <button onclick="diagnose()">鑑定する</button>
-    </div>
-    <div id="result-screen" class="box hidden">
-        <h2 style="font-size: 0.9rem;">DIVINATION RESULT</h2>
-        <div id="result-output" class="result-main"></div>
-        <button onclick="location.reload()" style="border: 1px solid rgba(255,255,255,0.3); font-size: 11px;">戻る</button>
-    </div>
-    <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbwYV0GvRploLv_ZnSG4-LnVoGo9T_D56YPMcmdlRIiLhEUpMdCI8T0tdd-b9st7r42H/exec";
+<script>
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzohWPmdkoBy8kjAbFdYSQTK5NBDz7oWRtjMx0s-8HqiLk4IIsW0-7znwzQ48V8AdMW-LnVoGo9T_D56YPMcmdlRIiLhEUpMdCI8T0tdd-b9st7r42H/exec";
         
         function diagnose() {
             const u = document.getElementById('u-name').value.trim();
@@ -83,10 +20,15 @@
                     const out = document.getElementById('result-output');
                     out.innerText = res; out.className = "result-main " + cls;
                     document.getElementById('result-screen').classList.remove('hidden');
-                } else { alert("星の導きが得られませんでした。"); location.reload(); }
+                } else { 
+                    // 名字だけ、またはデタラメでAIに弾かれた際のエモいアラート
+                    alert("✦ お二人の『姓』と『名』、そのすべてが揃って初めて、星々は未来を紡ぎます。フルネームで正しく綴られていますか？ ✦"); 
+                    location.reload(); 
+                }
             })
-            .catch(err => { alert("通信が途絶えました。"); location.reload(); });
+            .catch(err => { 
+                alert("通信が途絶えました。星の導きを再接続します。"); 
+                location.reload(); 
+            });
         }
     </script>
-</body>
-</html>
