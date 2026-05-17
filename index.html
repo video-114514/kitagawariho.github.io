@@ -1,10 +1,18 @@
 <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbzohWPmdkoBy8kjAbFdYSQTK5NBDz7oWRtjMx0s-8HqiLk4IIsW0-7znwzQ48V8AdMW-LnVoGo9T_D56YPMcmdlRIiLhEUpMdCI8T0tdd-b9st7r42H/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzohWPmdkoBy8kjAbFdYSQTK5NBDz7oWRtjMx0s-8HqiLk4IIsW0-7znwzQ48V8AdMW/exec";
         
         function diagnose() {
             const u = document.getElementById('u-name').value.trim();
             const p = document.getElementById('p-name').value.trim();
+            
             if (!u || !p) return alert("お名前を両方入力してください。");
+            
+            // ★ 新機能：二つの入力欄が同じ名前だったら即弾く
+            if (u === p) {
+                alert("✦ ご自身と同じ影を結ぶことはできません。星が映し出すのは、異なる二つの魂の共鳴です。 ✦");
+                return;
+            }
+            
             document.getElementById('setup-screen').classList.add('hidden');
             fetch(GAS_URL, {
                 method: "POST", headers: { "Content-Type": "text/plain" },
