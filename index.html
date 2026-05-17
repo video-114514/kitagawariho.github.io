@@ -3,207 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✦ 運命の相性占い - Destiny Divination ✦</title>
+    <title>✦ 星たちの導き - Stellar Affinity ✦</title>
     <style>
         body { 
-            background: linear-gradient(135deg, #0f0c1b 0%, #201335 50%, #0b0914 100%); 
-            color: #e0d5f0; 
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; 
+            background: radial-gradient(circle at center, #1b1464 0%, #000000 100%); 
+            color: #f0e6ff; 
+            font-family: 'Georgia', serif; 
             text-align: center; 
             margin: 0; 
             padding: 20px;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        .notice {
-            font-size: 12px;
-            color: #8a7fa4;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-        }
+        .notice { font-size: 11px; color: #a29bfe; margin-bottom: 20px; letter-spacing: 2px; opacity: 0.8; }
         .box { 
-            max-width: 450px; 
-            width: 90%;
-            padding: 40px 30px; 
-            background: rgba(20, 15, 35, 0.75); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 25px; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(147, 112, 219, 0.2); 
-            backdrop-filter: blur(10px);
+            max-width: 400px; width: 85%; padding: 50px 30px; 
+            background: rgba(10, 10, 25, 0.6); border: 1px solid rgba(162, 155, 254, 0.3); 
+            border-radius: 40px; box-shadow: 0 0 40px rgba(108, 92, 231, 0.3); backdrop-filter: blur(15px);
         }
-        h2 { 
-            font-weight: 300; 
-            letter-spacing: 4px; 
-            margin-bottom: 30px; 
-            font-size: 1.5rem; 
-            text-shadow: 0 0 15px rgba(186, 85, 211, 0.6); 
+        h2 { font-weight: lighter; letter-spacing: 6px; margin-bottom: 40px; font-size: 1.2rem; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+        .input-group { margin-bottom: 30px; }
+        label { display: block; font-size: 11px; margin-bottom: 8px; letter-spacing: 3px; color: #d1d1ff; }
+        input { 
+            width: 85%; padding: 15px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.2); 
+            background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 16px; outline: none; text-align: center; transition: 0.5s;
         }
-        .input-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            font-size: 13px;
-            margin-left: 10px;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-        }
-        .boy-input { 
-            width: 90%; 
-            padding: 14px; 
-            border-radius: 12px; 
-            border: 2px solid #3a5fcd; 
-            background: rgba(0, 0, 0, 0.4); 
-            color: #fff; 
-            font-size: 16px; 
-            outline: none; 
-            text-align: center;
-            box-shadow: 0 0 10px rgba(58, 95, 205, 0.2);
-            transition: 0.3s;
-        }
-        .boy-input:focus {
-            border-color: #63b8ff;
-            box-shadow: 0 0 15px rgba(99, 184, 255, 0.6);
-        }
-        .girl-input { 
-            width: 90%; 
-            padding: 14px; 
-            border-radius: 12px; 
-            border: 2px solid #ff69b4; 
-            background: rgba(0, 0, 0, 0.4); 
-            color: #fff; 
-            font-size: 16px; 
-            outline: none; 
-            text-align: center;
-            box-shadow: 0 0 10px rgba(255, 105, 180, 0.2);
-            transition: 0.3s;
-        }
-        .girl-input:focus {
-            border-color: #ffb6c1;
-            box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
-        }
-        .pass-input {
-            width: 90%; 
-            padding: 12px; 
-            border-radius: 12px; 
-            border: 1px solid #555; 
-            background: rgba(0, 0, 0, 0.6); 
-            color: #aaa; 
-            font-size: 14px; 
-            outline: none; 
-            text-align: center;
-            margin-top: 10px;
-        }
+        .u-input:focus { border-color: #a29bfe; box-shadow: 0 0 20px rgba(162, 155, 254, 0.4); }
+        .p-input:focus { border-color: #fab1a0; box-shadow: 0 0 20px rgba(250, 177, 160, 0.4); }
         button { 
-            width: 97%; 
-            padding: 15px; 
-            background: linear-gradient(135deg, #8a2be2 0%, #4a00e0 100%); 
-            color: #fff; 
-            border: none; 
-            border-radius: 12px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 16px; 
-            letter-spacing: 2px;
-            box-shadow: 0 5px 15px rgba(74, 0, 224, 0.4);
-            transition: 0.3s;
-            margin-top: 15px;
+            width: 90%; padding: 18px; background: transparent; color: #fff; border: 1px solid #fff; 
+            border-radius: 50px; font-size: 14px; letter-spacing: 4px; cursor: pointer; transition: 0.4s; margin-top: 10px;
         }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
-        }
+        button:hover { background: #fff; color: #000; box-shadow: 0 0 30px rgba(255, 255, 255, 0.6); }
         .hidden { display: none !important; }
-        .result-title { font-size: 1.2rem; color: #aaa; letter-spacing: 2px; }
-        .result-main { font-size: 2.5rem; font-weight: bold; margin: 20px 0; text-shadow: 0 0 20px rgba(255,255,255,0.4); }
-        .good { color: #ff3e6c; text-shadow: 0 0 20px rgba(255, 62, 108, 0.8); }
-        .normal { color: #ffcc00; text-shadow: 0 0 20px rgba(255, 204, 0, 0.8); }
-        .bad { color: #4da6ff; text-shadow: 0 0 20px rgba(77, 166, 255, 0.8); }
+        .result-main { font-size: 2.2rem; margin: 30px 0; font-weight: 100; letter-spacing: 2px; }
+        .good { color: #ff7675; text-shadow: 0 0 25px rgba(255, 118, 117, 0.6); }
+        .normal { color: #ffeaa7; text-shadow: 0 0 25px rgba(255, 234, 167, 0.6); }
+        .bad { color: #81ecec; text-shadow: 0 0 25px rgba(129, 236, 236, 0.6); }
     </style>
 </head>
 <body>
-
-    <div class="notice">※ひらがなのみで入力してください</div>
-
+    <div class="notice">※ひらがなのみでお綴りください</div>
     <div id="setup-screen" class="box">
-        <h2>名前相性診断</h2>
-        
+        <h2>STELLAR AFFINITY</h2>
         <div class="input-group">
-            <label style="color: #63b8ff;">MALE NAME (男子)</label>
-            <input type="text" id="boy-name" class="boy-input" placeholder="お名前を入力">
+            <label>YOUR NAME</label>
+            <input type="text" id="u-name" class="u-input" placeholder="あなたのなまえ">
         </div>
-
         <div class="input-group">
-            <label style="color: #ffb6c1;">FEMALE NAME (女子)</label>
-            <input type="text" id="girl-name" class="girl-input" placeholder="お名前を入力">
+            <label>PARTNER'S NAME</label>
+            <input type="text" id="p-name" class="p-input" placeholder="あいてのなまえ">
         </div>
-
-        <div class="input-group">
-            <label style="color: #888;">ACCESS PASSWORD</label>
-            <input type="password" id="pass-code" class="pass-input" placeholder="パスワードを入力">
-        </div>
-
-        <button onclick="diagnose()">診断を開始する</button>
+        <button onclick="diagnose()">鑑定する</button>
     </div>
-
     <div id="result-screen" class="box hidden">
-        <div class="result-title">ふたりの診断結果</div>
+        <h2 style="font-size: 0.9rem;">DIVINATION RESULT</h2>
         <div id="result-output" class="result-main"></div>
-        <button onclick="location.reload()">もう一度占う</button>
+        <button onclick="location.reload()" style="border: 1px solid rgba(255,255,255,0.3); font-size: 11px;">戻る</button>
     </div>
-
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbzP5bBP5zkDokOfEzxHpb6Pc7BnhAwruxIairbuWI--v7_fHCxuMP3KMtEoAS5W51-_/exec";
-        const REQUIRED_PASS = "www";
-
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbwYV0GvRploLv_ZnSG4-LnVoGo9T_D56YPMcmdlRIiLhEUpMdCI8T0tdd-b9st7r42H/exec";
+        
         function diagnose() {
-            const boy = document.getElementById('boy-name').value.trim();
-            const girl = document.getElementById('girl-name').value.trim();
-            const pass = document.getElementById('pass-code').value.trim();
-
-            if (!boy || !girl) {
-                return alert("お名前を両方入力してください！");
-            }
-            if (pass !== REQUIRED_PASS) {
-                return alert("パスワードが間違っています。");
-            }
-
+            const u = document.getElementById('u-name').value.trim();
+            const p = document.getElementById('p-name').value.trim();
+            if (!u || !p) return alert("お名前を両方入力してください。");
             document.getElementById('setup-screen').classList.add('hidden');
-
             fetch(GAS_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain" },
-                body: JSON.stringify({ p1: boy, p2: girl })
+                method: "POST", headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify({ p1: u, p2: p })
             })
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
-                    const finalResult = data.result;
-                    let resultClass = "normal";
-                    
-                    if (finalResult.includes("100") || finalResult.includes("80") || finalResult.includes("85") || finalResult.includes("90") || finalResult.includes("95")) {
-                        resultClass = "good";
-                    } else if (finalResult.includes("10") || finalResult.includes("15") || finalResult.includes("20") || finalResult.includes("25") || finalResult.includes("30") || finalResult.includes("35")) {
-                        resultClass = "bad";
-                    }
-
-                    const outputDiv = document.getElementById('result-output');
-                    outputDiv.innerText = finalResult;
-                    outputDiv.className = "result-main " + resultClass;
+                    const res = data.result;
+                    let cls = "normal";
+                    if (res.includes("100") || res.includes("80") || res.includes("85") || res.includes("90") || res.includes("95")) cls = "good";
+                    else if (res.includes("10") || res.includes("15") || res.includes("20") || res.includes("25") || res.includes("30") || res.includes("35")) cls = "bad";
+                    const out = document.getElementById('result-output');
+                    out.innerText = res; out.className = "result-main " + cls;
                     document.getElementById('result-screen').classList.remove('hidden');
-                } else {
-                    alert("エラーが発生しました。");
-                    location.reload();
-                }
+                } else { alert("星の導きが得られませんでした。"); location.reload(); }
             })
-            .catch(err => {
-                alert("通信エラーが発生しました。");
-                location.reload();
-            });
+            .catch(err => { alert("通信が途絶えました。"); location.reload(); });
         }
     </script>
 </body>
