@@ -32,9 +32,18 @@
 
         h1 {
             font-size: 1.8rem;
-            margin-bottom: 24px;
+            margin-bottom: 10px;
             letter-spacing: 2px;
             text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* 新設：神秘的な前口上のスタイル */
+        .prologue {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
         }
 
         .input-group {
@@ -114,13 +123,20 @@
     <div class="container">
         <div id="setup-screen">
             <h1>✦ 星屑の姓名占科 ✦</h1>
+            
+            <div class="prologue">
+                古来より、名には魂が宿り、<br>
+                響き合う二つの名は未来の軌道を描くという。<br>
+                天上の星々が紡ぎ出す、あなた方の引力を今ここに。
+            </div>
+
             <div class="input-group">
                 <label for="u-name">あなたのお名前（ひらがな）</label>
-                <input type="text" id="u-name" placeholder="例：もり こころ" autocomplete="off">
+                <input type="text" id="u-name" autocomplete="off">
             </div>
             <div class="input-group">
                 <label for="p-name">お相手のお名前（ひらがな）</label>
-                <input type="text" id="p-name" placeholder="例：にしな かいと" autocomplete="off">
+                <input type="text" id="p-name" autocomplete="off">
             </div>
             <button id="fortune-btn" onclick="diagnose()">星の導きを授かる</button>
         </div>
@@ -133,7 +149,7 @@
     </div>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbwYV0GvRploLv_ZnSG4-LnVoGo9T_D56YPMcmdlRIiLhEUpMdCI8T0tdd-b9st7r42H/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbxM0kRiD1I7vt-95opyPXnv5ZjCpjFEZtEwYgXAfM6-uEkrWKGWIRiFeJI6ZUeX8rPs/exec";
         
         function diagnose() {
             const u = document.getElementById('u-name').value.trim();
