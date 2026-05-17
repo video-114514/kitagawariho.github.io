@@ -1,26 +1,159 @@
-<script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbzohWPmdkoBy8kjAbFdYSQTK5NBDz7oWRtjMx0s-8HqiLk4IIsW0-7znwzQ48V8AdMW/exec";
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星屑の姓名占科</title>
+    <style>
+        /* 全体の夜空風デザイン */
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #fff;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 10px rgba(129, 140, 248, 0.5);
+        }
+
+        /* 占うボタンのデザイン */
+        #fortune-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        #fortune-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+        }
+
+        #fortune-btn:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 結果表示のデザイン */
+        .result-main {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .good { color: #f43f5e; text-shadow: 0 0 15px rgba(244,63,94,0.6); }
+        .normal { color: #eab308; text-shadow: 0 0 15px rgba(234,179,8,0.6); }
+        .bad { color: #38bdf8; text-shadow: 0 0 15px rgba(56,189,248,0.6); }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="setup-screen">
+            <h1>✦ 星屑の姓名占科 ✦</h1>
+            <div class="input-group">
+                <label for="u-name">あなたのお名前（ひらがな）</label>
+                <input type="text" id="u-name" placeholder="例：もり こころ" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="p-name">お相手のお名前（ひらがな）</label>
+                <input type="text" id="p-name" placeholder="例：にしな かいと" autocomplete="off">
+            </div>
+            <button id="fortune-btn" onclick="diagnose()">星の導きを授かる</button>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <h1>✦ 鑑定結果 ✦</h1>
+            <div id="result-output" class="result-main"></div>
+            <button onclick="location.reload()" style="margin-top: 24px; background: none; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;">もう一度占う</button>
+        </div>
+    </div>
+
+    <script>
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbwYV0GvRploLv_ZnSG4-LnVoGo9T_D56YPMcmdlRIiLhEUpMdCI8T0tdd-b9st7r42H/exec";
         
         function diagnose() {
             const u = document.getElementById('u-name').value.trim();
             const p = document.getElementById('p-name').value.trim();
-            const btn = document.getElementById('fortune-btn'); // 占うボタンを取得
+            const btn = document.getElementById('fortune-btn');
             
             if (!u || !p) return alert("お名前を両方入力してください。");
             
-            // ★ 同名ブロック
+            // 同名ブロック
             if (u === p) {
                 alert("✦ ご自身と同じ影を結ぶことはできません。星が映し出すのは、異なる二つの魂の共鳴です。 ✦");
                 return;
             }
             
-            // 【変更点】画面は隠さない！ボタンを「診断中...」にしてくるくるを回す
-            const originalBtnText = btn.innerHTML; // 元のボタン文字（「占う」など）を保存
-            btn.disabled = true; // 連打防止でボタンを無効化
-            // ボタンの中に文字とCSSインラインのくるくる（スピナー）を注入
+            // ボタンを「診断中...」にしてくるくる回す
+            const originalBtnText = btn.innerHTML;
+            btn.disabled = true;
             btn.innerHTML = `
                 <span style="display: inline-flex; align-items: center; gap: 8px;">
-                    診断中...
+                    星に問いかけ中...
                     <span style="
                         width: 14px; 
                         height: 14px; 
@@ -39,7 +172,6 @@
             })
             .then(res => res.json())
             .then(data => {
-                // 診断が終わったらボタンを元に戻す
                 btn.disabled = false;
                 btn.innerHTML = originalBtnText;
                 
@@ -49,21 +181,20 @@
                     if (res.includes("100") || res.includes("80") || res.includes("85") || res.includes("90") || res.includes("95")) cls = "good";
                     else if (res.includes("10") || res.includes("15") || res.includes("20") || res.includes("25") || res.includes("30") || res.includes("35")) cls = "bad";
                     
-                    // 結果が出た瞬間にだけ、最初の画面を隠して結果を出す
                     document.getElementById('setup-screen').classList.add('hidden');
                     const out = document.getElementById('result-output');
                     out.innerText = res; out.className = "result-main " + cls;
                     document.getElementById('result-screen').classList.remove('hidden');
                 } else { 
-                    // AIエラー時
                     alert("✦ お二人の『姓』と『名』、そのすべてが揃って初めて、星々は未来を紡ぎます。フルネームで正しく綴られていますか？ ✦"); 
                 }
             })
             .catch(err => { 
-                // 通信エラー時もボタンを元に戻す
                 btn.disabled = false;
                 btn.innerHTML = originalBtnText;
                 alert("通信が途絶えました。星の導きを再接続します。"); 
             });
         }
     </script>
+</body>
+</html>
